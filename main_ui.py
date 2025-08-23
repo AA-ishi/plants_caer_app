@@ -125,38 +125,46 @@ if st.button("💧 水やり頻度と管理方法はここをクリックして�
             st.error(f"CSVの読み込みに失敗しました。ファイルや列名をご確認ください。\n\n詳細: {e}")
 
         
-    # 管理方法のタイトル
-    st.markdown(" 🌿 管理方法")
+   # 管理方法のタイトル
+st.markdown(" 🌿 管理方法")
 
- 
-   
-    # AIによる管理方法の回答（Azure OpenAIに送信）
-    prompt = f"""
-    {plant_name} の室内管理方法を、園芸初心者にもわかるように、300字程度でやさしく説明してください。
-    置き場所、温度、湿度、肥料、病害虫対策などもあれば教えてください。
-    """
+# AIによる管理方法の回答（Azure OpenAIに送信）
+prompt = f"""
+{plant_name} の室内管理方法を、園芸初心者にもわかるように、300字程度でやさしく説明してください。
+置き場所、温度、湿度、肥料、病害虫対策などもあれば教えてください。
+"""
 
-    headers = {
-        "Content-Type": "application/json",
-        "api-key": api_key
-    }
+# Secretsから必要な情報を取得
+api_key = st.secrets["OPENAI_API_KEY"]
+endpoint = st.secrets["OPENAI_ENDPOINT"]
+deployment = st.secrets["OPENAI_DEPLOYMENT"]
+api_version = st.secrets["OPENAI_API_VERSION"]
 
-    body = {
-        "messages": [
-            {"role": "system", "content": "あなたは植物ケアの専門家です。"},
-            {"role": "user", "content": prompt}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 250
-    }
+# Azure OpenAI用のURL構築
+url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
 
-    response = requests.post(endpoint, headers=headers, json=body)
-    result = response.json()
+headers = {
+    "Content-Type": "application/json",
+    "api-key": api_key
+}
+
+body = {
+    "messages": [
+        {"role": "system", "content": "あなたは植物ケアの専門家です。"},
+        {"role": "user", "content": prompt}
+    ],
+    "temperature": 0.7,
+    "max_tokens": 250
+}
+
+# APIリクエスト送信
+response = requests.post(url, headers=headers, json=body)
+result = response.json()
+
+# 応答の構造を確認してから取り出す
+if "choices" in result and len(result["choices"]) > 0:
     advice = result["choices"][0]["message"]["content"]
-
-    st.write(advice) 
+    st.write(advice)
 else:
-    st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
-       
-
-   
+    st.error("AIからの応答が取得できませんでした。設定やAPIキーをご確認ください。")
+    st.write("🔍 応答内容（デバッグ用）:", result)
