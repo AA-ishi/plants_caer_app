@@ -3,12 +3,9 @@ from PIL import Image
 import base64
 import pandas as pd 
 import requests
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-api_key = os.getenv("API_KEY")
-endpoint = os.getenv("ENDPOINT")
+api_key = st.secrets["OPENAI_API_KEY"]
+endpoint = st.secrets["OPENAI_ENDPOINT"]
 
 # 背景画像の設定（CSSで全体に表示）
 def set_background(image_path):
@@ -161,4 +158,5 @@ if st.button("💧 水やり頻度と管理方法はここをクリックして�
 else:
     st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
        
+
    
