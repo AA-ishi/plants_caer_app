@@ -4,8 +4,12 @@ import base64
 import pandas as pd 
 import requests
 
-api_key = st.secrets["OPENAI_API_KEY"]
-endpoint = st.secrets["OPENAI_ENDPOINT"]
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+endpoint = os.getenv("OPENAI_ENDPOINT").rstrip("/")
+deployment = os.getenv("OPENAI_DEPLOYMENT")
+api_version = os.getenv("OPENAI_API_VERSION")
+    
 
 # 背景画像の設定（CSSで全体に表示）
 def set_background(image_path):
@@ -168,3 +172,4 @@ if "choices" in result and len(result["choices"]) > 0:
 else:
     st.error("AIからの応答が取得できませんでした。設定やAPIキーをご確認ください。")
     st.write("🔍 応答内容（デバッグ用）:", result)
+
