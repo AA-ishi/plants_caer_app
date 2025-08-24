@@ -30,6 +30,26 @@ def set_background(image_path):
 
 # 背景画像を設定（ファイル名は適宜変更）
 set_background("appback20250822.png")
+st.markdown("""
+    <style>
+    /* 全体の文字色と背景色を強制 */
+    html, body, [class*="css"] {
+        color: #000 !important;
+        background-color: rgba(255, 255, 255, 0.0) !important; /* 背景画像を活かす */
+    }
+
+    /* 入力欄の文字色と背景色 */
+    input, select, textarea {
+        color: #000 !important;
+        background-color: #ffffff !important;
+    }
+
+    /* ボタンの文字色も明示的に指定 */
+    div.stButton > button:first-child {
+        color: #333 !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # タイトル（装飾付き）
 st.markdown(
@@ -174,6 +194,7 @@ if plant_name:
 # 👇 植物名が未入力の場合の案内
 else:
     st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+
 
 
 
