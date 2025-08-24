@@ -178,8 +178,9 @@ endpoint = st.secrets["OPENAI_ENDPOINT"].rstrip("/")
 deployment = st.secrets["OPENAI_DEPLOYMENT"]
 api_version = st.secrets["OPENAI_API_VERSION"]
 
-url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
+url = f"{endpoint}/openai/deployments/{deployment}/completions?api-version={api_version}"
 st.write("リクエストURL:", url)
+
 
 
 
