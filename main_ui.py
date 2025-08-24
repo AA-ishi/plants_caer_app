@@ -83,10 +83,10 @@ st.markdown(
 )
 
 # 入力欄（重複なし）
-plant_name = st.text_input("🌱 植物の名前を入力:", key="plant_name_input")
+plant_name = st.text_input("🌱 植物の名前を入力してください:", key="plant_name_input")
 
 location = st.selectbox(
-    "🏠 置いてある場所を選択:",
+    "🏠 置いてある場所を選択してください:",
     [
         "日がよく当たる窓際",
         "あまり日が当たらない窓際",
@@ -112,7 +112,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ボタン表示（中央揃え＋薄緑）
-if st.button("💧 水やり頻度と管理方法はここをクリックしてね"):
+if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
 
 
     # 水やり頻度の補正ロジック
@@ -194,6 +194,7 @@ if plant_name:
 # 👇 植物名が未入力の場合の案内
 else:
     st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+
 
 
 
