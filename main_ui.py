@@ -171,6 +171,16 @@ if "choices" in result and len(result["choices"]) > 0:
 else:
     st.error("AIからの応答が取得できませんでした。設定やAPIキーをご確認ください。")
     st.write("🔍 応答内容（デバッグ用）:", result)
+import streamlit as st
+
+api_key = st.secrets["OPENAI_API_KEY"]
+endpoint = st.secrets["OPENAI_ENDPOINT"].rstrip("/")
+deployment = st.secrets["OPENAI_DEPLOYMENT"]
+api_version = st.secrets["OPENAI_API_VERSION"]
+
+url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
+st.write("リクエストURL:", url)
+
 
 
 
