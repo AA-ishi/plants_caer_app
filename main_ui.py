@@ -111,8 +111,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ボタン表示（中央揃え＋薄緑）
+# ボタンの表示（中央配置を強化）
+st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
 if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
+    # ここに処理が続く
+    ...
+st.markdown("</div>", unsafe_allow_html=True)
+
 
 
     # 水やり頻度の補正ロジック
@@ -138,10 +143,13 @@ if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
                 base_days = int(match.iloc[0]["推奨頻度_日"])
                 adjusted_days = calculate_watering_frequency(base_days, location)
                 st.markdown(" 💧 水やり頻度")
-                st.info(f"{adjusted_days} 日ごとに水やりをしてみましょう。"
-                        "お水をあげるときは鉢底から水が流れ出るぐらいタップリあげてください。"
-                        "植物の様子をみて頻度を変えることも必要です。"
-                        )
+                # 水やり頻度の説明（背景なし）
+                watering_text = (
+                    f"{adjusted_days} 日ごとに水やりをしてみましょう。"
+                    "お水をあげるときは鉢底から水が流れ出るぐらいタップリあげてください。"
+                    "植物の様子をみて頻度を変えることも必要です。"
+                )
+                st.markdown(f"<div class='ai-advice'>{watering_text}</div>", unsafe_allow_html=True)
             else:
                 st.warning("水やりの頻度は育て方を参考にしてください。")
         except Exception as e:
@@ -194,6 +202,7 @@ if plant_name:
 # 👇 植物名が未入力の場合の案内
 else:
     st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+
 
 
 
