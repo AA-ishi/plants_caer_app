@@ -141,8 +141,7 @@ if plant_name:
 
     # Azure OpenAI API設定
     url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
-    st.write("実際のリクエストURL:", url)
-
+   
     headers = {
         "Content-Type": "application/json",
         "api-key": api_key
@@ -161,8 +160,7 @@ if plant_name:
         response = requests.post(url, headers=headers, json=body)
         result = response.json()
 
-        st.write("レスポンス内容:", result)  # デバッグ用
-
+      
         if "choices" in result and len(result["choices"]) > 0:
             advice = result["choices"][0]["message"]["content"]
             st.write(advice)
@@ -176,3 +174,4 @@ if plant_name:
 # 👇 植物名が未入力の場合の案内
 else:
     st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+
