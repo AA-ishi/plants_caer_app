@@ -144,7 +144,7 @@ deployment = st.secrets["OPENAI_DEPLOYMENT"]
 api_version = st.secrets["OPENAI_API_VERSION"]
 
 # Azure OpenAI用のURL構築
-url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
+url = f"{endpoint}/openai/deployments/{deployment}/completions?api-version={api_version}"
 
 headers = {
     "Content-Type": "application/json",
@@ -180,6 +180,7 @@ api_version = st.secrets["OPENAI_API_VERSION"]
 
 url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
 st.write("リクエストURL:", url)
+
 
 
 
