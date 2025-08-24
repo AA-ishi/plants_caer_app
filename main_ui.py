@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 
 api_key = st.secrets["OPENAI_API_KEY"]
-endpoint = st.secrets["OPENAI_ENDPOINT"].rstrip("/")
+endpoint = st.secrets["OPENAI_ENDPOINT"]
 deployment = st.secrets["OPENAI_DEPLOYMENT"]
 api_version = st.secrets["OPENAI_API_VERSION"]
     
@@ -180,6 +180,7 @@ api_version = st.secrets["OPENAI_API_VERSION"]
 
 url = f"{endpoint}/openai/deployments/{deployment}/completions?api-version={api_version}"
 st.write("リクエストURL:", url)
+
 
 
 
