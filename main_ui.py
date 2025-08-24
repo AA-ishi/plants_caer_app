@@ -43,13 +43,7 @@ st.markdown("""
         background-color: #ffffff !important;
     }
     div.stButton > button:first-child {
-        background-color: #d4f5d4;
-        color: #333;
-        font-size: 18px;
-        padding: 10px 20px;
-        border-radius: 8px;
-        margin: auto;
-        display: block;
+        color: #333 !important;
     }
     .title-text {
         font-size: 48px;
@@ -70,22 +64,6 @@ st.markdown("""
         text-align: center;
         text-shadow: 1px 1px 2px #000;
         margin-bottom: 30px;
-    }
-    .highlight-text {
-        color: #4B2E2E !important;
-        font-weight: bold;
-        font-size: 20px;
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
-    .ai-advice {
-        color: #4B2E2E !important;
-        font-size: 18px;
-        line-height: 1.6;
-        font-weight: bold;
-        background-color: transparent !important;
-        padding: 10px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -109,8 +87,7 @@ location = st.selectbox(
     key="location_select"
 )
 
-# ボタン表示（中央配置）
-st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+# ボタン表示（元の左寄せ）
 if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
 
     # 水やり頻度の補正ロジック
@@ -135,20 +112,20 @@ if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
             if not match.empty:
                 base_days = int(match.iloc[0]["推奨頻度_日"])
                 adjusted_days = calculate_watering_frequency(base_days, location)
-                st.markdown("<div class='highlight-text'>💧 水やり頻度</div>", unsafe_allow_html=True)
+                st.markdown("💧 水やり頻度")
                 watering_text = (
                     f"{adjusted_days} 日ごとに水やりをしてみましょう。"
                     "お水をあげるときは鉢底から水が流れ出るぐらいタップリあげてください。"
                     "植物の様子をみて頻度を変えることも必要です。"
                 )
-                st.markdown(f"<div class='ai-advice'>{watering_text}</div>", unsafe_allow_html=True)
+                st.write(watering_text)
             else:
                 st.warning("水やりの頻度は育て方を参考にしてください。")
         except Exception as e:
             st.error(f"CSVの読み込みに失敗しました。ファイルや列名をご確認ください。\n\n詳細: {e}")
 
     # 管理方法の表示
-    st.markdown("<div class='highlight-text'>🌿 管理方法</div>", unsafe_allow_html=True)
+    st.markdown("🌿 管理方法")
 
     if plant_name:
         prompt = f"""
@@ -175,7 +152,7 @@ if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
 
             if "choices" in result and len(result["choices"]) > 0:
                 advice = result["choices"][0]["message"]["content"]
-                st.markdown(f"<div class='ai-advice'>{advice}</div>", unsafe_allow_html=True)
+                st.write(advice)
             else:
                 st.error("AIからの回答が取得できませんでした。")
                 if "error" in result:
@@ -184,5 +161,3 @@ if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
             st.error(f"リクエスト中にエラーが発生しました: {e}")
     else:
         st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
-
-st.markdown("</div>", unsafe_allow_html=True)
