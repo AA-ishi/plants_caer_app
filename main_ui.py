@@ -127,58 +127,52 @@ if st.button("💧 水やり頻度と管理方法はここをクリックして�
         except Exception as e:
             st.error(f"CSVの読み込みに失敗しました。ファイルや列名をご確認ください。\n\n詳細: {e}")
 
-        
-   # 管理方法のタイトル
-st.markdown(" 🌿 管理方法")
+       
+  # 🌿 管理方法のタイトル
+st.markdown("🌿 管理方法")
 
-# AIによる管理方法の回答（Azure OpenAIに送信）
-prompt = f"""
-{plant_name} の室内管理方法を、園芸初心者にもわかるように、300字程度でやさしく説明してください。
-置き場所、温度、湿度、肥料、病害虫対策などもあれば教えてください。
-"""
+# 植物名が入力されているか確認
+if plant_name:
+    # AIへのプロンプト
+    prompt = f"""
+    {plant_name} の室内管理方法を、園芸初心者にもわかるように、300字程度でやさしく説明してください。
+    置き場所、温度、湿度、肥料、病害虫対策などもあれば教えてください。
+    """
 
-# Azure OpenAI用のURL構築
-url = f"{endpoint}openai/deployments/{deployment}/completions?api-version={api_version}"
+    # Azure OpenAI API設定
+    url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
+    st.write("実際のリクエストURL:", url)
 
-headers = {
-    "Content-Type": "application/json",
-    "api-key": api_key
-}
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": api_key
+    }
+    body = {
+        "messages": [
+            {"role": "system", "content": "あなたは植物ケアの専門家です。"},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 250
+    }
 
-body = {
-    "messages": [
-        {"role": "system", "content": "あなたは植物ケアの専門家です。"},
-        {"role": "user", "content": prompt}
-    ],
-    "temperature": 0.7,
-    "max_tokens": 250
-}
+    # 👇 API呼び出しを try ブロックで安全に処理
+    try:
+        response = requests.post(url, headers=headers, json=body)
+        result = response.json()
 
-# APIリクエスト送信
-response = requests.post(url, headers=headers, json=body)
-result = response.json()
+        st.write("レスポンス内容:", result)  # デバッグ用
 
-# 応答の構造を確認してから取り出す
-if "choices" in result and len(result["choices"]) > 0:
-    advice = result["choices"][0]["message"]["content"]
-    st.write(advice)
+        if "choices" in result and len(result["choices"]) > 0:
+            advice = result["choices"][0]["message"]["content"]
+            st.write(advice)
+        else:
+            st.error("AIからの回答が取得できませんでした。")
+            if "error" in result:
+                st.error(f"エラー詳細: {result['error'].get('message')}")
+    except Exception as e:
+        st.error(f"リクエスト中にエラーが発生しました: {e}")
+
+# 👇 植物名が未入力の場合の案内
 else:
-    st.error("AIからの応答が取得できませんでした。設定やAPIキーをご確認ください。")
-    st.write("🔍 応答内容（デバッグ用）:", result)
-import streamlit as st
-
-api_key = st.secrets["OPENAI_API_KEY"]
-endpoint = st.secrets["OPENAI_ENDPOINT"].rstrip("/")
-deployment = st.secrets["OPENAI_DEPLOYMENT"]
-api_version = st.secrets["OPENAI_API_VERSION"]
-
-url = f"{endpoint}/openai/deployments/{deployment}/completions?api-version={api_version}"
-st.write("リクエストURL:", url)
-
-
-
-
-
-
-
-
+    st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
