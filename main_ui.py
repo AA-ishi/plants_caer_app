@@ -179,7 +179,7 @@ if plant_name:
 else:
     st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
     
-# warningスタイルの簡素化
+# ⚠ warningスタイルの簡素化（これは if-else の外でもOK）
 st.markdown("""
     <style>
     .stAlert[data-testid="stWarning"] {
