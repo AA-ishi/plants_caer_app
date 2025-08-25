@@ -55,8 +55,8 @@ st.markdown("""
              2px -2px 0 #000,
             -2px  2px 0 #000,
              2px  2px 0 #000;
-        margin-top: 20px;
-        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-bottom: 8px;
     }
     .subtitle-text {
         font-size: 24px;
@@ -161,4 +161,5 @@ if st.button("💧 水やり頻度と🌿管理方法はここをクリック"):
             st.error(f"リクエスト中にエラーが発生しました: {e}")
     else:
         st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+
 
