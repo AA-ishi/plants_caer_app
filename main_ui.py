@@ -100,85 +100,79 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-    # ボタンを表示
-    st.button("クリックしてね💧水やり頻度と🌿管理方法をお伝えします")
+# ボタンを表示
+st. button("クリックしてね💧水やり頻度と🌿管理方法をお伝えします")
 
-    # 水やり頻度の補正ロジック
-    def calculate_watering_frequency(base_days, location):
-        if location == "日がよく当たる窓際":
-            return base_days
-        elif location == "あまり日が当たらない窓際":
-            return base_days + 2
-        elif location == "明るいけれど窓際ではない場所":
-            return base_days + 1
-        elif location == "日が当たらない場所":
-            return base_days + 5
-        else:
-            return base_days
-
-    # 水やり頻度の表示
-    if plant_name and location:
-        try:
-            df = pd.read_csv("plant_database.csv")
-            match = df[df["名前"] == plant_name]
-
-            if not match.empty:
-                base_days = int(match.iloc[0]["推奨頻度_日"])
-                adjusted_days = calculate_watering_frequency(base_days, location)
-                st.markdown("💧 水やり頻度")
-                watering_text = (
-                    f"{adjusted_days} 日ごとに水やりをしてみましょう。"
-                    "お水をあげるときは鉢底から水が流れ出るぐらいタップリあげてください。"
-                    "植物の様子をみて頻度を変えることも必要です。"
-                )
-                st.write(watering_text)
-            else:
-                st.warning("水やりの頻度は育て方を参考にしてください。")
-        except Exception as e:
-            st.error(f"CSVの読み込みに失敗しました。ファイルや列名をご確認ください。\n\n詳細: {e}")
-
-    # 管理方法の表示
-    st.markdown("🌿 管理方法")
-
-    if plant_name:
-        prompt = f"""
-        {plant_name} の室内管理方法を、園芸初心者にもわかるように、260字程度で完結させてください。
-        置き場所、温度、湿度、肥料、病害虫対策などもあればやさしく教えてください。
-        """
-        url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
-        headers = {
-            "Content-Type": "application/json",
-            "api-key": api_key
-        }
-        body = {
-            "messages": [
-                {"role": "system", "content": "あなたは植物ケアの専門家です。"},
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.7,
-            "max_tokens": 250
-        }
-
-        try:
-            response = requests.post(url, headers=headers, json=body)
-            result = response.json()
-
-            if "choices" in result and len(result["choices"]) > 0:
-                advice = result["choices"][0]["message"]["content"]
-                st.write(advice)
-            else:
-                st.error("AIからの回答が取得できませんでした。")
-                if "error" in result:
-                    st.error(f"エラー詳細: {result['error'].get('message')}")
-        except Exception as e:
-            st.error(f"リクエスト中にエラーが発生しました: {e}")
+# 水やり頻度の補正ロジック
+def calculate_watering_frequency(base_days, location):
+    if location == "日がよく当たる窓際":
+        return base_days
+    elif location == "あまり日が当たらない窓際":
+        return base_days + 2
+    elif location == "明るいけれど窓際ではない場所":
+        return base_days + 1
+    elif location == "日が当たらない場所":
+        return base_days + 5
     else:
-        st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+        return base_days
 
+# 水やり頻度の表示
+if plant_name and location:
+    try:
+        df = pd.read_csv("plant_database.csv")
+        match = df[df["名前"] == plant_name]
 
+        if not match.empty:
+            base_days = int(match.iloc[0]["推奨頻度_日"])
+            adjusted_days = calculate_watering_frequency(base_days, location)
+            st.markdown("💧 水やり頻度")
+            watering_text = (
+                f"{adjusted_days} 日ごとに水やりをしてみましょう。"
+                "お水をあげるときは鉢底から水が流れ出るぐらいタップリあげてください。"
+                "植物の様子をみて頻度を変えることも必要です。"
+            )
+            st.write(watering_text)
+        else:
+            st.warning("水やりの頻度は育て方を参考にしてください。")
+    except Exception as e:
+        st.error(f"CSVの読み込みに失敗しました。ファイルや列名をご確認ください。\n\n詳細: {e}")
 
+# 管理方法の表示
+st.markdown("🌿 管理方法")
 
+if plant_name:
+    prompt = f"""
+    {plant_name} の室内管理方法を、園芸初心者にもわかるように、260字程度で完結させてください。
+    置き場所、温度、湿度、肥料、病害虫対策などもあればやさしく教えてください。
+    """
+    url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": api_key
+    }
+    body = {
+        "messages": [
+            {"role": "system", "content": "あなたは植物ケアの専門家です。"},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 250
+    }
 
+    try:
+        response = requests.post(url, headers=headers, json=body)
+        result = response.json()
 
+        if "choices" in result and len(result["choices"]) > 0:
+            advice = result["choices"][0]["message"]["content"]
+            st.write(advice)
+        else:
+            st.error("AIからの回答が取得できませんでした。")
+            if "error" in result:
+                st.error(f"エラー詳細: {result['error'].get('message')}")
+    except Exception as e:
+        st.error(f"リクエスト中にエラーが発生しました: {e}")
+else:
+    st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
 
 
