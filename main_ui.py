@@ -176,6 +176,9 @@ if plant_name:
     except Exception as e:
         st.error(f"リクエスト中にエラーが発生しました: {e}")
 
+else:
+    st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
+    
 # warningスタイルの簡素化
 st.markdown("""
     <style>
@@ -187,9 +190,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 表示
-else:
-    st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
+
 
 
 
