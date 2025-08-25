@@ -87,14 +87,14 @@ location = st.selectbox(
     key="location_select"
 )
 
-# ボタンの中央配置と桜色スタイル 
 .stButton > button {
     display: block;
     margin: 0 auto;
-    background-color: #ffe4e1 !important;  # 薄い桜色 
+    background-color: #ffe4e1 !important;  /* 薄い桜色 */
     color: #333 !important;
     border: none;
-} 
+}
+
 
     # 水やり頻度の補正ロジック
     def calculate_watering_frequency(base_days, location):
@@ -167,6 +167,7 @@ location = st.selectbox(
             st.error(f"リクエスト中にエラーが発生しました: {e}")
     else:
         st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+
 
 
 
