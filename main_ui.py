@@ -101,7 +101,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ボタンを表示
-st. button("クリックしてね💧水やり頻度と🌿管理方法をお伝えします")
+st. button("クリックしてね")
 
 # 水やり頻度の補正ロジック
 def calculate_watering_frequency(base_days, location):
@@ -173,6 +173,7 @@ if plant_name:
     except Exception as e:
         st.error(f"リクエスト中にエラーが発生しました: {e}")
 else:
-    st.warning("植物の名前を入力すると、管理方法のアドバイスが表示されます🌱")
+    st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
+
 
 
