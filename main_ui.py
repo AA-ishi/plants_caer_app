@@ -142,13 +142,13 @@ if plant_name and location:
 
 # ⚠ warningスタイルの簡素化（これは if-else の外でもOK）
 st.markdown("""
-    <style>
-    .stAlert[data-testid="stWarning"] {
-        background-color: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-    }
-    </style>
+<style>
+div[class*="stAlert"] {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # 管理方法の表示
@@ -190,6 +190,7 @@ if plant_name:
 else:
     st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
     
+
 
 
 
