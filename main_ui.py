@@ -96,12 +96,15 @@ st.markdown("""
         background-color: #ffe4e1 !important;  /* 薄い桜色 */
         color: #333 !important;
         border: none;
+        padding: 0.6em 1.2em;
+        font-size: 16px;
+        border-radius: 6px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# ボタンを表示
-st. button("クリックしてね")
+# ボタンを表示（中央揃えされる）
+st.button("クリックしてね 💧🌿")
 
 # 水やり頻度の補正ロジック
 def calculate_watering_frequency(base_days, location):
@@ -174,6 +177,7 @@ if plant_name:
         st.error(f"リクエスト中にエラーが発生しました: {e}")
 else:
     st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
+
 
 
 
