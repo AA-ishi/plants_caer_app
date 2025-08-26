@@ -157,7 +157,7 @@ st.markdown("🌿 管理方法")
 if plant_name:
     prompt = f"""
     {plant_name} の室内管理方法を、園芸初心者にもわかるように、260字程度で完結させてください。
-    置き場所、温度、湿度、肥料、病害虫対策などもあればやさしく教えてください。
+    置き場所、温度、湿度、肥料、病害虫対策などもあればやさしく教えてください。 {plant_name}が植物でなかったらその紹介をしてください。
     """
     url = f"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
     headers = {
@@ -190,6 +190,7 @@ if plant_name:
 else:
     st.warning("植物の名前と置き場所をいれてボタンをクリックすると、管理方法のアドバイスが表示されます🌱")
     
+
 
 
 
